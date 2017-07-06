@@ -15,19 +15,16 @@ import java.net.InetAddress
 @PreserveOnRefresh
 class MainUI : UI() {
 
-    private val hostName = InetAddress.getLocalHost().hostAddress ?: "(?.?.?.?)"
-
     override fun init(vaadinRequest: VaadinRequest?) {
         val sessionId = VaadinSession.getCurrent().session.id
 
-        hostName
         // build the UI
         val verticalLayout = VerticalLayout()
         val textField = TextField()
-        val label = Label("new ui created on $hostName")
+        val label = Label("new ui created on ${hostName()}()")
         val button = Button("change text").apply {
             addClickListener {
-                label.value = "\"${textField.value}\" processed on $hostName"
+                label.value = "\"${textField.value}\" processed on ${hostName()}"
                 textField.apply { clear(); focus() }
             }
         }
@@ -38,5 +35,7 @@ class MainUI : UI() {
 
         content = verticalLayout
     }
+
+    private fun hostName() = InetAddress.getLocalHost().hostAddress ?: "(?.?.?.?)"
 
 }

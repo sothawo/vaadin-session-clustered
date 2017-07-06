@@ -42,3 +42,32 @@ communication problems resulting from the fact that the requests from one browse
 backend servers.
 
 
+## adding session support
+
+the following dependencies are needed:
+
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-redis</artifactId>
+			<version>${spring-boot-starter-redis.version}</version>
+		</dependency>
+        <dependency>
+            <groupId>org.vaadin</groupId>
+            <artifactId>spring-session-redis</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+the first adds the spring boot session support, the second adds the libraries for using redis and the third is needed
+ have vaadin to the whole stuff.
+ 
+ The main applicaiton class gets an additional `@EnableRedisHttpSession` annotation and a method
+   
+       @Bean
+       fun vaadinSessionRewriteFilter() = VaadinSessionRewriteFilter()
+
+After that, when the docker stack is deployed and scaled, occasionally the traffic is sent to a different host 
+(browsers keep the connection open), but no more session or communication errors occur. 
