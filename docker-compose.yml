@@ -1,0 +1,17 @@
+version: '3'
+
+networks:
+  localnet:
+    driver: overlay
+
+services:
+
+  vaadin-session-clustered:
+    image: vaadin-session-clustered:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - localnet
+    deploy:
+      mode: replicated
+      replicas: 1
